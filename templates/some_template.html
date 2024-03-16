@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sleep Tracker</title>
+</head>
+<body>
+    <form id="chat-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="chatgpt-response">Response will appear here</div>
+
+    <script>
+        document.getElementById('chat-form').onsubmit = async function(event) {
+            event.preventDefault();  // Prevent the default form submission behavior
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const formData = new FormData(event.target);
+            const userInput = formData.get('user_input');  // Use the actual name of your input field
+
+            const response = await fetch('/chatgpt/?user_input=' + encodeURIComponent(userInput), {
+                method: 'GET',  // Change to 'POST' if your Django view expects a POST request
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            });
+            const data = await response.json();
+
+            document.getElementById('chatgpt-response').textContent = data.response ? data.response : 'Error: ' + data.error;
+        }
+    </script>
+</body>
+</html>
