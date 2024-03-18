@@ -20,7 +20,7 @@ for record in sleep_data:
 data_for_recommendations = "\n".join(formatted_data)
 
 # Set your OpenAI API key
-#put openAI key here
+#put openAI
 
 
 def generate_recommendations(data):
