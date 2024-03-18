@@ -20,7 +20,7 @@ for record in sleep_data:
 data_for_recommendations = "\n".join(formatted_data)
 
 # Set your OpenAI API key
-openai.api_key = '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'
+openai.api_key = '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'
 
 
 def generate_recommendations(data):
@@ -28,9 +28,9 @@ def generate_recommendations(data):
         # Convert the data into a readable string format for the prompt
         prompt_text = "Generate sleep recommendations based on the following data:\n"
         for entry in data:
-            prompt_text += f"Date: {entry['date']}, Sleep time: {entry['sleep_time_hours']} hours, Sleepiness level: {entry['sleepiness_level']}\n"
+            prompt_text += f"Date: {entry['date']}, Sleep time: {entry['hours']} hours, Sleepiness level: {entry['sleepinessLevel']}\n"
 
-        print(prompt_text)
+        #print(prompt_text)
 
         # Call the ChatGPT API to generate recommendations based on the formatted prompt
         response = openai.Completion.create(
@@ -38,7 +38,8 @@ def generate_recommendations(data):
             prompt=prompt_text,
             max_tokens=150
         )
-        print(response)
+        print("generate_rec")
+        #print(response)
         return response.choices[0].text.strip()
 
     except openai.error.RateLimitError:

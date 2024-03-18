@@ -21,10 +21,20 @@ def some_view(request):
     # Render the form with any context you need
     return render(request, 'some_template.html', {'form': form, 'recommendations': recommendations})
 
+def chatgpt_api_1(request):
+    user_input = request.GET.get('user_input', '')
+    if user_input:
+        print("in chatgpt_api")
+        data_for_recommendations = load_sleep_data_from_json('/Users/zhenye/PycharmProjects/AqualRestBackEnd/sleepData.json')
+        recommendations = generate_recommendations(data_for_recommendations)
+        return JsonResponse({'response': recommendations})
+    else:
+        return JsonResponse({'error': 'No input provided'})
+
 def chatgpt_api(request):
     user_input = request.GET.get('user_input', '')
     if user_input:
-        data_for_recommendations = load_sleep_data_from_json('/Users/zhenye/PycharmProjects/AqualRestBackEnd/sleep_records.json')
+        data_for_recommendations = load_sleep_data_from_json('/Users/zhenye/PycharmProjects/AqualRestBackEnd/sleepData.json')
         recommendations = generate_recommendations(data_for_recommendations)
         return JsonResponse({'response': recommendations})
     else:

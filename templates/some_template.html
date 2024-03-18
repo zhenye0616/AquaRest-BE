@@ -19,7 +19,12 @@
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
             const formData = new FormData(event.target);
-            const userInput = formData.get('user_input');  // Use the actual name of your input field
+            let userInput = formData.get('user_input');  // Use the actual name of your input field
+
+            // Check if the input is empty, if so, set it to null
+            if (!userInput.trim()) {
+                userInput = null;
+            }
 
             const response = await fetch('/chatgpt/?user_input=' + encodeURIComponent(userInput), {
                 method: 'GET',  // Change to 'POST' if your Django view expects a POST request
